@@ -21,10 +21,8 @@
 #include "camera_server.h"
 
 // Replace with your network credentials
-//const char* ssid = "KT_GiGA_7EA2";
-//const char* password = "7bdc00fi91";
-const char* ssid = "U+Net900F";
-const char* password = "908F7F99M!";
+const char* ssid = "***********";
+const char* password = "***********";
 
 
 void setup() {
