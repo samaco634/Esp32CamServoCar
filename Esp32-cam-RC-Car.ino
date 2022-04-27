@@ -15,15 +15,24 @@
 #include "soc/soc.h"             // disable brownout problems
 #include "soc/rtc_cntl_reg.h"    // disable brownout problems
 #include "esp_http_server.h"
-#include "http.h"
-#include "motor.h"
 #include "camera.h"
-#include "camera_server.h"
 
-// Replace with your network credentials
-const char* ssid = "***********";
-const char* password = "***********";
 
+//#define USE_AP_MODE //if you don't have a router
+#define VFLIP_MIRROR // if your camera shows fliped image
+
+#if defined USE_AP_MODE
+const char *soft_ap_ssid = "MyESP32AP";
+const char *soft_ap_password = "12345678";
+#else
+//const char* wifi_network_ssid = "KT_GiGA_7EA2";
+//const char* wifi_network_password =  "7bdc00fi91";
+const char* wifi_network_ssid = "U+Net900F";
+const char* wifi_network_password =  "908F7F99M!";
+#endif
+ 
+void startCameraServer();
+void motor_begin(void);
 
 void setup() {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
@@ -32,7 +41,7 @@ void setup() {
   motor_begin();
 
   Serial.begin(115200);
-  Serial.setDebugOutput(false);
+  Serial.setDebugOutput(true);
   
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
@@ -57,9 +66,9 @@ void setup() {
   config.pixel_format = PIXFORMAT_JPEG; 
   
   if(psramFound()){
-    config.frame_size = FRAMESIZE_VGA;
+    config.frame_size = FRAMESIZE_QVGA;
     config.jpeg_quality = 10;
-    config.fb_count = 2;
+    config.fb_count = 1;
   } else {
     config.frame_size = FRAMESIZE_SVGA;
     config.jpeg_quality = 12;
@@ -73,20 +82,31 @@ void setup() {
     return;
   }
   
-  // Wi-Fi connection
-  analogWrite(4, 50);
-  WiFi.begin(ssid, password);
+#if defined VFLIP_MIRROR
+  sensor_t * s = esp_camera_sensor_get();
+  s->set_hmirror(s, 1);        // 0 = disable , 1 = enable
+  s->set_vflip(s, 1);          // 0 = disable , 1 = enable
+#endif
+
+#if defined USE_AP_MODE
+  WiFi.softAP(soft_ap_ssid, soft_ap_password);
+
+  IPAddress IP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(IP);
+#else
+  // Wi-FI connect
+  WiFi.begin(wifi_network_ssid, wifi_network_password);
+  Serial.println("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
   Serial.println("");
-  Serial.println("WiFi connected");
-  analogWrite(4, 0);
-  
-  Serial.print("Camera Stream Ready! Go to: http://");
+  Serial.print("WiFi connected : ");
   Serial.println(WiFi.localIP());
-  
+#endif
+
   // Start streaming web server
   startCameraServer();
 }
