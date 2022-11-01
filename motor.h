@@ -3,8 +3,8 @@
 
 #include "Arduino.h"
 
-#define MOTOR_1_PIN_1    14
-#define MOTOR_1_PIN_2    15
+#define SERVO_PIN    14
+
 #define MOTOR_2_PIN_1    13
 #define MOTOR_2_PIN_2    12
 
