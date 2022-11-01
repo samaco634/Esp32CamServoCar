@@ -1,49 +1,61 @@
 #include "motor.h"
+#include <Servo.h>
+
+Servo servo1;
+int currentDegree ;
 
 void motor_begin(void)
 {
-  pinMode(MOTOR_1_PIN_1, OUTPUT);
-  pinMode(MOTOR_1_PIN_2, OUTPUT);
-  pinMode(MOTOR_2_PIN_1, OUTPUT);
-  pinMode(MOTOR_2_PIN_2, OUTPUT);
+  pinMode(MOTOR_PIN_1, OUTPUT);
+  pinMode(MOTOR_PIN_2, OUTPUT);
+  
+  servo1.attach(SEVOR_PIN);
+  currentDegree = 90
 }
 void motor_forward(int speed)
 {
-    analogWrite(MOTOR_1_PIN_1, speed);
-    analogWrite(MOTOR_1_PIN_2, 0);
-    analogWrite(MOTOR_2_PIN_1, speed);
-    analogWrite(MOTOR_2_PIN_2, 0);
+    analogWrite(MOTOR_PIN_1, speed);
+    analogWrite(MOTOR_PIN_2, 0);
+    currentDegree = 90;
+    servo1.write(currentDegree);
+
 }
 
 void motor_backward(int speed)
 {
-    digitalWrite(4, LOW);
-    analogWrite(MOTOR_1_PIN_1, 0);
-    analogWrite(MOTOR_1_PIN_2, speed);
-    analogWrite(MOTOR_2_PIN_1, 0);
-    analogWrite(MOTOR_2_PIN_2, speed); 
+    analogWrite(MOTOR_PIN_1, 0);
+    analogWrite(MOTOR_PIN_2, speed);
+  
+    currentDegree = 90;
+    servo1.write(currentDegree);
 }
 
 void motor_left(int speed)
 {
-    analogWrite(MOTOR_1_PIN_1, 0);
-    analogWrite(MOTOR_1_PIN_2, speed);
-    analogWrite(MOTOR_2_PIN_1, speed);
-    analogWrite(MOTOR_2_PIN_2, 0);
+    analogWrite(MOTOR_PIN_1, speed);
+    analogWrite(MOTOR_PIN_2, 0);
+  
+    if(  currentDegree > 15 )
+    {
+      current -= 5;
+    }
+    servo1.write(currentDegree);
 }
 
 void motor_right(int speed)
 {
-    analogWrite(MOTOR_1_PIN_1, speed);
-    analogWrite(MOTOR_1_PIN_2, 0);
-    analogWrite(MOTOR_2_PIN_1, 0);
-    analogWrite(MOTOR_2_PIN_2, speed);
+    analogWrite(MOTOR_PIN_1, speed);
+    analogWrite(MOTOR_PIN_2, 0);
+  
+    if(  currentDegree < 165
+    {
+      current += 5;
+    }
+    servo1.write(currentDegree);
 }
 
 void motor_stop(void)
 {
-    analogWrite(MOTOR_1_PIN_1, 0);
-    analogWrite(MOTOR_1_PIN_2, 0);
-    analogWrite(MOTOR_2_PIN_1, 0);
-    analogWrite(MOTOR_2_PIN_2, 0);
+    analogWrite(MOTOR_PIN_1, 0);
+    analogWrite(MOTOR_PIN_2, 0);
 }
