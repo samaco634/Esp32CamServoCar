@@ -18,12 +18,13 @@
 #include "camera.h"
 
 
-//#define USE_AP_MODE //if you don't have a router
+#define USE_AP_MODE //if you don't have a router
 #define VFLIP_MIRROR // if your camera shows fliped image
 
 #if defined USE_AP_MODE
 const char *soft_ap_ssid = "MyESP32AP";
 const char *soft_ap_password = "12345678";
+
 #else
 //const char* wifi_network_ssid = "KT_GiGA_7EA2";
 //const char* wifi_network_password =  "7bdc00fi91";
@@ -92,7 +93,7 @@ void setup() {
   WiFi.softAP(soft_ap_ssid, soft_ap_password);
 
   IPAddress IP = WiFi.softAPIP();
-  Serial.print("AP IP address: ");
+  Serial.print("AP IP address: "); //192.168.4.1
   Serial.println(IP);
 #else
   // Wi-FI connect
