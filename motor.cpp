@@ -10,7 +10,7 @@ void motor_begin(void)
   pinMode(MOTOR_PIN_1, OUTPUT);
   pinMode(MOTOR_PIN_2, OUTPUT);
   
-  servo1.attach(SEVOR_PIN);
+  servo1.attach(SERVO_PIN);
   currentDegree = 90
 }
 void motor_forward(int speed)
