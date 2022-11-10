@@ -38,7 +38,7 @@ void motor_left(int speed)
   
     if(  currentDegree > 15 )
     {
-      current -= 5;
+      currentDegree -= 5;
     }
     servo1.write(currentDegree);
 }
@@ -50,7 +50,7 @@ void motor_right(int speed)
   
     if(  currentDegree < 165
     {
-      current += 5;
+      currentDegree += 5;
     }
     servo1.write(currentDegree);
 }
