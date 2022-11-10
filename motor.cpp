@@ -48,7 +48,7 @@ void motor_right(int speed)
     analogWrite(MOTOR_PIN_1, speed);
     analogWrite(MOTOR_PIN_2, 0);
   
-    if(  currentDegree < 165
+    if(  currentDegree < 165 )
     {
       currentDegree += 5;
     }
