@@ -35,11 +35,8 @@ void motor_left(int speed)
 {
     analogWrite(MOTOR_PIN_1, speed);
     analogWrite(MOTOR_PIN_2, 0);
-  
-    if(  currentDegree > 15 )
-    {
-      currentDegree -= 5;
-    }
+
+    currentDegree = 50;
     servo1.write(currentDegree);
 }
 
@@ -47,16 +44,15 @@ void motor_right(int speed)
 {
     analogWrite(MOTOR_PIN_1, speed);
     analogWrite(MOTOR_PIN_2, 0);
-  
-    if(  currentDegree < 165 )
-    {
-      currentDegree += 5;
-    }
+
+    currentDegree = 130;
     servo1.write(currentDegree);
 }
 
 void motor_stop(void)
 {
+    currentDegree = 90;
+    servo1.write(currentDegree);
     analogWrite(MOTOR_PIN_1, 0);
     analogWrite(MOTOR_PIN_2, 0);
 }
