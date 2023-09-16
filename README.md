@@ -1,4 +1,7 @@
 # Esp32CamCar servo steering
+2023-09-16
+This circuit has power problem.
+
 2022-11-01
 This code is still under development.
 
